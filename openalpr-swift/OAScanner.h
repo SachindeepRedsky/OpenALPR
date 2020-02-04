@@ -31,7 +31,7 @@ typedef void(^onPlateScanFailure)(NSError *);
 
 @interface OAScanner: NSObject
 
-@property (weak) id<OAScannerDelegate> delegate;
+@property (weak) id<OAScannerDelegate> delegate;onSuccess
 @property BOOL JSONResults;
 
 - (instancetype)initWithCountry:(NSString *)country configFile:(NSString *)configPath runtimeDir:(NSString *)runtimeDir;
@@ -40,9 +40,10 @@ typedef void(^onPlateScanFailure)(NSError *);
 
 - (void)setPatternRegion:(NSString *)region;
 - (void)setTopN:(int)n;
+- (void)scanImageAtPath:(NSString *)path;
 
-- (void)scanImage:(UIImage *)image onSuccess:(onPlateScanSuccess)success onFailure:(onPlateScanFailure)failure;
-- (void)scanImageAtPath:(NSString *)path onSuccess:(onPlateScanSuccess)success onFailure:(onPlateScanFailure)failure;
+- (void)scanImage:(UIImage *)image;
+- (void)scanImageAtPath:(NSString *)path;
 
 @end
 

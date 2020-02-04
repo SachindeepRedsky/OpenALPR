@@ -74,7 +74,7 @@ using namespace cv;
     alpr->setTopN(5);
 }
 
-- (void)scanCVImage:(cv::Mat &)colorImage onSuccess:(onPlateScanSuccess)success onFailure:(onPlateScanFailure)failure {
+- (void)scanCVImage:(cv::Mat &)colorImage {
     
     if (alpr->isLoaded() == false) {
         NSError *error = [NSError errorWithDomain:@"OpenALPR"
@@ -84,7 +84,7 @@ using namespace cv;
         if (self.delegate && [self.delegate respondsToSelector:@selector(didFailToLoadwithError:)]) {
             [self.delegate didFailToLoadwithError:error];
         }
-        failure(error);
+        // failure(error);
     }
     
     vector<AlprRegionOfInterest> regionsOfInterest;
@@ -93,7 +93,7 @@ using namespace cv;
     OAResults *scanResults = [[OAResults alloc] initWithAlprResults:&results];
     
     if (_JSONResults && _delegate && [_delegate respondsToSelector:@selector(didScanResultsJSON:)]) {
-        [self.delegate didScanResultsJSON:[NSString stringWithUTF8String:(Alpr::toJson(results).c_str())]];
+        [self.delegate didScansuccessResultsJSON:[NSString stringWithUTF8String:(Alpr::toJson(results).c_str())]];
     } else if (_delegate && [_delegate respondsToSelector:@selector(didScanResults:)]) {
         [self.delegate didScanResults:scanResults];
     }
@@ -115,7 +115,7 @@ using namespace cv;
         [self.delegate didScanBestPlates:bestPlates];
     }
     
-    success(bestPlates);
+    // success(bestPlates);
 }
 
 - (void)scanImage:(UIImage *)image onSuccess:(onPlateScanSuccess)success onFailure:(onPlateScanFailure)failure {
@@ -124,9 +124,10 @@ using namespace cv;
     [self scanCVImage:m onSuccess:success onFailure:failure];
 }
 
-- (void)scanImageAtPath:(NSString *)path onSuccess:(onPlateScanSuccess)success onFailure:(onPlateScanFailure)failure {
+- (void)scanImageAtPath:(NSString *)path {
+    NSLog(@"Delegates are great!");
     cv::Mat m = imread([path UTF8String], CV_LOAD_IMAGE_COLOR);
-    [self scanCVImage:m onSuccess:success onFailure:failure];
+    [self scanCVImage:m];
 }
 
 @end
