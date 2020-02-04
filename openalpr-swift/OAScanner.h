@@ -31,7 +31,7 @@ typedef void(^onPlateScanFailure)(NSError *);
 
 @interface OAScanner: NSObject
 
-@property (weak) id<OAScannerDelegate> delegate;onSuccess
+@property (weak) id<OAScannerDelegate> delegate;
 @property BOOL JSONResults;
 
 - (instancetype)initWithCountry:(NSString *)country configFile:(NSString *)configPath runtimeDir:(NSString *)runtimeDir;
