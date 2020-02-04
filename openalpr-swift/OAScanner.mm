@@ -118,10 +118,10 @@ using namespace cv;
     // success(bestPlates);
 }
 
-- (void)scanImage:(UIImage *)image onSuccess:(onPlateScanSuccess)success onFailure:(onPlateScanFailure)failure {
+- (void)scanImage:(UIImage *)image {
     cv::Mat m = cv::Mat();
     UIImageToMat(image, m);
-    [self scanCVImage:m onSuccess:success onFailure:failure];
+    [self scanCVImage:m];
 }
 
 - (void)scanImageAtPath:(NSString *)path {
