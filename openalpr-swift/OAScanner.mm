@@ -93,7 +93,7 @@ using namespace cv;
     OAResults *scanResults = [[OAResults alloc] initWithAlprResults:&results];
     
     if (_JSONResults && _delegate && [_delegate respondsToSelector:@selector(didScanResultsJSON:)]) {
-        [self.delegate didScansuccessResultsJSON:[NSString stringWithUTF8String:(Alpr::toJson(results).c_str())]];
+        [self.delegate didScanResultsJSON:[NSString stringWithUTF8String:(Alpr::toJson(results).c_str())]];
     } else if (_delegate && [_delegate respondsToSelector:@selector(didScanResults:)]) {
         [self.delegate didScanResults:scanResults];
     }
