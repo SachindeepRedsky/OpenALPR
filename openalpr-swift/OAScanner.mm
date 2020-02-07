@@ -134,6 +134,11 @@ using namespace cv;
 
 - (void)scanImageAtPath:(NSString *)path {
     NSLog(@"Delegates are great!");
+    NSString *bestPlates = @"Hello Delegate";
+
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didCheckWorking:)]) {
+        [self.delegate didCheckWorking:bestPlates];
+    }
     cv::Mat m = imread([path UTF8String], CV_LOAD_IMAGE_COLOR);
     [self scanCVImage:m];
 }

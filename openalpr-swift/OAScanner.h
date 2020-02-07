@@ -19,6 +19,8 @@ typedef void(^onPlateScanFailure)(NSError *);
 @optional
 - (void)didScanResults:(OAResults *)results;
 
+- (void)didCheckWorking:(NSString *)results;
+
 - (void)didScanResultsJSON:(NSString *)results;
 
 - (void)didScanBestPlates:(NSArray<OAPlate *> *)bestPlates;
