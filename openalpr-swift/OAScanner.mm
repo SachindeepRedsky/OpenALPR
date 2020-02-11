@@ -74,8 +74,7 @@ using namespace cv;
     alpr->setTopN(5);
 }
 
-- (void)scanCVImage:(cv::Mat &)colorImage onSuccess:(void (^)(NSArray<OAPlate *> *))success onFailed:(void (^)(NSError *))failure {
-        NSLog(@"In-C++ function!");
+- (void)scanCVImage:(cv::Mat &)colorImage onSuccess:(onPlateScanSuccess)success onFailure:(onPlateScanFailure)failure {
 
     if (alpr->isLoaded() == false) {
         NSError *error = [NSError errorWithDomain:@"OpenALPR"
@@ -87,15 +86,10 @@ using namespace cv;
         }
         failure(error);
     }
-    
-    NSLog(@"In-C++ function!:ALPR:LOADED");
 
     vector<AlprRegionOfInterest> regionsOfInterest;
     AlprResults results = alpr->recognize(colorImage.data, (int)colorImage.elemSize(), colorImage.cols, colorImage.rows, regionsOfInterest);
     
-    NSLog(@"In-C++ function!:Alpr:::Recognise");
-
-
     OAResults *scanResults = [[OAResults alloc] initWithAlprResults:&results];
     
     if (_JSONResults && _delegate && [_delegate respondsToSelector:@selector(didScanResultsJSON:)]) {
@@ -116,31 +110,23 @@ using namespace cv;
         }
         [bestPlates addObject:pr.bestPlate];
     }
-        NSLog(@"In-C++ function!:Alpr:::best:results");
 
     if (self.delegate && [self.delegate respondsToSelector:@selector(didScanBestPlates:)]) {
         [self.delegate didScanBestPlates:bestPlates];
     }
-        NSLog(@"In-C++ function!:Alpr:::end");
 
     success(bestPlates);
 }
 
-- (void)scanImage:(UIImage *)image onSuccess:(void (^)(NSArray<OAPlate *> *))success onFailed:(void (^)(NSError *))failure {
+- (void)scanImage:(UIImage *)image onSuccess:(onPlateScanSuccess)success onFailure:(onPlateScanFailure)failure {
     cv::Mat m = cv::Mat();
     UIImageToMat(image, m);
-    [self scanCVImage:m onSuccess:success onFailed:failure];
+    [self scanCVImage:m onSuccess:success onFailure:failure];
 }
 
-- (void)scanImageAtPath:(NSString *)path onSuccess:(void (^)(NSArray<OAPlate *> *))success onFailed:(void (^)(NSError *))failure {
-    NSLog(@"Delegates are great!");
-    NSString *bestPlates = @"Hello Delegate";
-
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didCheckWorking:)]) {
-        [self.delegate didCheckWorking:bestPlates];
-    }
+- (void)scanImageAtPath:(NSString *)path onSuccess:(onPlateScanSuccess)success onFailure:(onPlateScanFailure)failure {
     cv::Mat m = imread([path UTF8String], CV_LOAD_IMAGE_COLOR);
-    [self scanCVImage:m onSuccess:success onFailed:failure];
+    [self scanCVImage:m onSuccess:success onFailure:failure];
 }
 
 @end

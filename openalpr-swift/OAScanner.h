@@ -19,8 +19,6 @@ typedef void(^onPlateScanFailure)(NSError *);
 @optional
 - (void)didScanResults:(OAResults *)results;
 
-- (void)didCheckWorking:(NSString *)results;
-
 - (void)didScanResultsJSON:(NSString *)results;
 
 - (void)didScanBestPlates:(NSArray<OAPlate *> *)bestPlates;
@@ -43,8 +41,8 @@ typedef void(^onPlateScanFailure)(NSError *);
 - (void)setPatternRegion:(NSString *)region;
 - (void)setTopN:(int)n;
 
-- (void)scanImage:(UIImage *)image onSuccess:(void (^)(NSArray<OAPlate *> *))success onFailed:(void (^)(NSError *))failure;
-- (void)scanImageAtPath:(NSString *)path;
+- (void)scanImage:(UIImage *)image onSuccess:(onPlateScanSuccess)success onFailure:(onPlateScanFailure)failure;
+- (void)scanImageAtPath:(NSString *)path onSuccess:(onPlateScanSuccess)success onFailure:(onPlateScanFailure)failure;
 
 @end
 
