@@ -132,7 +132,7 @@ using namespace cv;
     [self scanCVImage:m onSuccess:success onFailed:failure];
 }
 
-- (void)scanImageAtPath:(NSString *)path {
+- (void)scanImageAtPath:(NSString *)path onSuccess:(void (^)(NSArray<OAPlate *> *))success onFailed:(void (^)(NSError *))failure {
     NSLog(@"Delegates are great!");
     NSString *bestPlates = @"Hello Delegate";
 
@@ -140,7 +140,7 @@ using namespace cv;
         [self.delegate didCheckWorking:bestPlates];
     }
     cv::Mat m = imread([path UTF8String], CV_LOAD_IMAGE_COLOR);
-    [self scanCVImage:m];
+    [self scanCVImage:m onSuccess:success onFailed:failure];
 }
 
 @end
