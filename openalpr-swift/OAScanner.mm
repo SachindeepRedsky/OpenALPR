@@ -74,7 +74,7 @@ using namespace cv;
     alpr->setTopN(5);
 }
 
-- (void)scanCVImage:(cv::Mat &)colorImage {
+- (void)scanCVImage:(cv::Mat &)colorImage onSuccess:(void (^)(NSArray<OAPlate *> *))success onFailed:(void (^)(NSError *))failure {
         NSLog(@"In-C++ function!");
 
     if (alpr->isLoaded() == false) {
@@ -85,7 +85,7 @@ using namespace cv;
         if (self.delegate && [self.delegate respondsToSelector:@selector(didFailToLoadwithError:)]) {
             [self.delegate didFailToLoadwithError:error];
         }
-        // failure(error);
+        failure(error);
     }
     
     NSLog(@"In-C++ function!:ALPR:LOADED");
@@ -123,13 +123,13 @@ using namespace cv;
     }
         NSLog(@"In-C++ function!:Alpr:::end");
 
-    // success(bestPlates);
+    success(bestPlates);
 }
 
-- (void)scanImage:(UIImage *)image {
+- (void)scanImage:(UIImage *)image onSuccess:(void (^)(NSArray<OAPlate *> *))success onFailed:(void (^)(NSError *))failure {
     cv::Mat m = cv::Mat();
     UIImageToMat(image, m);
-    [self scanCVImage:m];
+    [self scanCVImage:m onSuccess:success onFailed:failure];
 }
 
 - (void)scanImageAtPath:(NSString *)path {

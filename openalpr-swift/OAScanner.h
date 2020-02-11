@@ -43,7 +43,7 @@ typedef void(^onPlateScanFailure)(NSError *);
 - (void)setPatternRegion:(NSString *)region;
 - (void)setTopN:(int)n;
 
-- (void)scanImage:(UIImage *)image;
+- (void)scanImage:(UIImage *)image onSuccess:(void (^)(NSArray<OAPlate *> *))success onFailed:(void (^)(NSError *))failure;
 - (void)scanImageAtPath:(NSString *)path;
 
 @end
